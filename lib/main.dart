@@ -1,6 +1,8 @@
 import 'dart:async'; // For Timer
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http; // For HTTP requests
+import 'package:audioplayers/audioplayers.dart'; // For playing audio
+
 
 void main() {
   runApp(const KeepAliveApp());
@@ -32,6 +34,8 @@ class _KeepAliveHomeState extends State<KeepAliveHome> {
   Timer? _timer; // Timer to schedule periodic requests
   String _status = "Waiting to start...";
   int _pingCount = 0;
+  late AudioPlayer _audioPlayer; // Declare the audio player
+
 
   // This function sends a lightweight HTTP GET request
   Future<void> _sendKeepAlivePing() async {
@@ -41,7 +45,7 @@ class _KeepAliveHomeState extends State<KeepAliveHome> {
     try {
       // This URL returns a 204 No Content response, very lightweight
       final response = await http.get(Uri.parse('https://www.google.com/generate_204'));
-      setState(() {
+       setState(() {
         _pingCount++;
         _status = "Ping #$_pingCount: Success (HTTP ${response.statusCode})";
       });
@@ -56,6 +60,12 @@ class _KeepAliveHomeState extends State<KeepAliveHome> {
   @override
   void initState() {
     super.initState();
+    // Initialize the audio player
+    _audioPlayer = AudioPlayer();
+
+    // Play the silent audio file in a loop
+    _audioPlayer.setReleaseMode(ReleaseMode.loop); // Loop the audio
+    _audioPlayer.play(AssetSource('silence.mp3')); // Play the asset
     // Send a ping every 5 seconds
     _timer = Timer.periodic(const Duration(seconds: 5), (timer) {
       _sendKeepAlivePing();
@@ -66,6 +76,7 @@ class _KeepAliveHomeState extends State<KeepAliveHome> {
   @override
   void dispose() {
     _timer?.cancel();
+    _audioPlayer.dispose(); // Release audio resources
     super.dispose();
   }
 
