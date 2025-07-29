@@ -87,4 +87,7 @@ iOS bug squasher: [Taiseer Rakiin Ahad](https://github.com/Taiseer517)
 #### Fun fact
 Yes, this project was born out of sheer frustration on a crowded bus somewhere in Dhaka.
 
+##### misc
+![visitors](https://visitor-badge.laobi.icu/badge?page_id=AzwadFawadHasan.keep_alive_hotspot)
+
 
